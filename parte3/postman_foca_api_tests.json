@@ -1,0 +1,759 @@
+{
+	"info": {
+		"_postman_id": "0cc9051c-d912-4508-89ff-39209e4e3952",
+		"name": "Foca",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login on test user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0ff31077-e1c8-4586-a084-c68a946b4aba",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"test\",\n\t\"password\": \"9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Leagues",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8e497b45-14f8-47d5-920a-92a4ae4b8154",
+						"exec": [
+							"pm.test(\"Get Leagues\", function () {",
+							"    const leaguesExpected = [",
+							"        {",
+							"            \"id\": 2017,",
+							"            \"area\": \"Portugal\",",
+							"            \"name\": \"Primeira Liga\"",
+							"            ",
+							"        },",
+							"        {",
+							"            \"id\": 2014,",
+							"            \"area\": \"Spain\",",
+							"            \"name\": \"Primera Division\"",
+							"        }",
+							"    ]",
+							"    pm.response.to.have.status(200)",
+							"    const leagues = pm.response.json()",
+							"    leaguesExpected.forEach(league => pm.expect(leagues.filter(i=>compareLeagues(i, league)).length).to.eql(1))",
+							"})",
+							"",
+							"function compareLeagues(a, b){",
+							"    if(a.id == b.id && a.area == b.area && a.name == b.name) return true",
+							"    return false",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/leagues",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"leagues"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Teams",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "658f0b04-2751-4355-958d-c2ff64462b0d",
+						"exec": [
+							"pm.test(\"Get Teams League\", function () {",
+							"    const teamsExpected = [",
+							"        {",
+							"            \"id\": 503,",
+							"            \"name\": \"FC Porto\",",
+							"            \"shortName\": \"Porto\",",
+							"            \"tla\": \"POR\",",
+							"            \"venue\": \"Estádio Do Dragão\"",
+							"        },",
+							"        {",
+							"            \"id\": 498,",
+							"            \"name\": \"Sporting Clube de Portugal\",",
+							"            \"shortName\": \"Sporting CP\",",
+							"            \"tla\": \"SPO\",",
+							"            \"venue\": \"Estádio José Alvalade\"",
+							"        }",
+							"    ]",
+							"    pm.response.to.have.status(200)",
+							"    var teams = pm.response.json()",
+							"    teamsExpected.forEach(team => pm.expect(teams.filter(i=>compareTeams(i, team)).length).to.eql(1))",
+							"})",
+							"",
+							"function compareTeams(a, b) {",
+							"    if(a.id == b.id && a.venue == b.venue) return true",
+							"    return false",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/leagues/2017/teams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"leagues",
+						"2017",
+						"teams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Teams Of Unexistent League",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d7c160a7-1d59-4218-b84a-a0d76d930629",
+						"exec": [
+							"pm.test(\"Get Teams Of Unexistent League\", function () {",
+							"    pm.response.to.have.status(404)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/leagues/20000000/teams",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"leagues",
+						"20000000",
+						"teams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "21a41ad8-7fd2-46ee-bbbc-12bb48a11dc2",
+						"exec": [
+							"pm.test(\"Create Group\", function () {\r",
+							"    pm.response.to.have.status(201)\r",
+							"    const jsonData = pm.response.json()\r",
+							"    pm.globals.set(\"groupId\", jsonData._id)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"TestName\", \n\t\"description\": \"TestDescription\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c401c5ae-dfd3-47e0-9d6f-bca84b48a0f3",
+						"exec": [
+							"pm.test(\"Update Group\", function () {",
+							"    pm.response.to.have.status(200)",
+							"    const jsonData = pm.response.json()",
+							"    pm.expect(jsonData._id)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"NewName\", \n\t\"description\": \"NewDescription\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups/{{groupId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups",
+						"{{groupId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6b949288-303f-4977-bdae-ccc751270bd8",
+						"exec": [
+							"pm.test(\"Get Group\", function () {",
+							"    pm.response.to.have.status(200)",
+							"    const group = pm.response.json()",
+							"    pm.expect(group.name).to.eql(\"NewName\")",
+							"    pm.expect(group.description).to.eql(\"NewDescription\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups/{{groupId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups",
+						"{{groupId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Another Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "21a41ad8-7fd2-46ee-bbbc-12bb48a11dc2",
+						"exec": [
+							"pm.test(\"Create Another Group\", function () {\r",
+							"    pm.response.to.have.status(201)\r",
+							"    const jsonData = pm.response.json()\r",
+							"    pm.expect(jsonData._id)\r",
+							"    pm.globals.set(\"otherGroupId\", jsonData._id)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"AnotherName\", \n\t\"description\": \"AnotherDescription\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Groups",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "11a63949-41b7-4ae4-9ba7-a4a07dd80416",
+						"exec": [
+							"pm.test(\"Get Groups\", function () {",
+							"    const groupsExpected = [",
+							"        {",
+							"            \"name\": \"NewName\",",
+							"            \"description\": \"NewDescription\",",
+							"            \"teams\": []",
+							"        },",
+							"        {",
+							"            \"name\": \"AnotherName\",",
+							"            \"description\": \"AnotherDescription\",",
+							"            \"teams\": []",
+							"        }",
+							"    ]",
+							"    pm.response.to.have.status(200)",
+							"    const groups = pm.response.json()",
+							"    console.log(groups)",
+							"    groupsExpected.forEach(group => pm.expect(groups.filter(i=>compareGroups(i, group)).length).to.not.eql(0))",
+							"})",
+							"",
+							"function compareGroups(a, b) {",
+							"    if(a.name === b.name && a.description === b.description) return true",
+							"    return false",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Team To Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eff289eb-9193-43c6-9fa8-f0f136c518d3",
+						"exec": [
+							"pm.test(\"Add Team To Group\", function () {",
+							"    const expectedTeam = {",
+							"        \"id\": 503,",
+							"        \"name\": \"FC Porto\",",
+							"        \"shortName\": \"Porto\",",
+							"        \"tla\": \"POR\",",
+							"        \"venue\": \"Estádio Do Dragão\"",
+							"    }",
+							"    pm.response.to.have.status(200)",
+							"    const team = pm.response.json()",
+							"    pm.expect(compareTeams(team, expectedTeam)).to.be.true",
+							"})",
+							"",
+							"function compareTeams(a, b) {",
+							"    if(a.id == b.id && a.venue == b.venue) return true",
+							"    return false",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups/{{groupId}}/teams/503",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups",
+						"{{groupId}}",
+						"teams",
+						"503"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Matches Of Teams In a Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7d9ee4ee-b89d-4afe-9b8c-42789db2f110",
+						"exec": [
+							"pm.test(\"Get Matches Of Teams In a Group\", function () {",
+							"    const expectedMatch = {",
+							"        'id': 241246,       ",
+							"        'date': '2018-11-03T18:00:00.000Z',",
+							"        'homeTeam': {",
+							"            'id': 5575,",
+							"            'name': 'CS Marítimo'",
+							"        },",
+							"        'awayTeam': {",
+							"            'id': 503,",
+							"            'name': 'FC Porto'",
+							"        }",
+							"    }",
+							"    pm.response.to.have.status(200)",
+							"    const matches = pm.response.json()",
+							"    pm.expect(matches.length).to.eql(1)",
+							"    pm.expect(matches.pop()).to.eql(expectedMatch)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups/{{groupId}}/matches?from=2018-11-01&to=2018-11-05",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups",
+						"{{groupId}}",
+						"matches"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "2018-11-01"
+						},
+						{
+							"key": "to",
+							"value": "2018-11-05"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Team From Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c366c262-ffbc-47c0-b57b-73aef63d354d",
+						"exec": [
+							"pm.test(\"Remove Team From Group\", function () {",
+							"    const expectedTeam = {",
+							"        \"id\": 503,",
+							"        \"name\": \"FC Porto\",",
+							"        \"shortName\": \"Porto\",",
+							"        \"tla\": \"POR\",",
+							"        \"venue\": \"Estádio Do Dragão\"",
+							"    }",
+							"    pm.response.to.have.status(200)",
+							"    const team = pm.response.json()",
+							"    pm.expect(compareTeams(team, expectedTeam)).to.be.true",
+							"})",
+							"",
+							"function compareTeams(a, b) {",
+							"    if(a.id == b.id && a.venue == b.venue) return true",
+							"    return false",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups/{{groupId}}/teams/503",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups",
+						"{{groupId}}",
+						"teams",
+						"503"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dee3304b-1afc-4c09-9b59-d681076db203",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups/{{groupId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups",
+						"{{groupId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Other Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eed03eeb-21e5-4092-965a-025432e9a3cb",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/groups/{{otherGroupId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"groups",
+						"{{otherGroupId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/auth/signout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"signout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "66979d58-9378-45e7-8a3c-a28955aa7794",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7ba9f95d-0aff-4bbb-92d8-fb984a4545b6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

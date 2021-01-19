@@ -1,0 +1,22 @@
+<h4>Teams</h4>
+<br>
+<div class="col">
+    <div class="row">
+        <div class="col">
+            <h5>Name (TLA)</h5>
+        </div> 
+        <div class="col">
+            <h5>Venue</h5>
+        </div>
+    </div>
+    {{#each .}}
+    <div class="row">
+        <div class="col">
+            <h5 class="font-weight-normal">{{name}} ({{tla}})</h5>
+        </div> 
+        <div class="col">
+            <h5 class="font-weight-normal">{{venue}}</h5>
+        </div>
+    </div>
+    {{/each}}
+</div>

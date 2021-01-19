@@ -1,0 +1,36 @@
+<div id="currGroup_{{id}}">
+    <h5 class="text-center">Name:</h5>
+    <p class="text-center">{{name}}</p>
+    <h5 class="text-center">Description:</h5>
+    <p class="text-center">{{description}}</p>
+    <br>
+    <h5 class="text-center">Teams:</h5>
+    <div id="divTeams">
+        {{#each teams}}
+        <div class="row" id="team_{{id}}">
+            <div class="col">
+                <h6>{{name}} ({{tla}})</h6>
+            </div>
+
+            <div class="col-2">
+                <button type="button" class="btn btn-light" id="btnDeleteTeam_{{id}}">
+                    ❌
+                </button>
+            </div>
+        </div>
+        {{else}}
+        <h5 class="text-center" id="noTeams"> No teams! </h5>
+        {{/each}}
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-outline-primary" id="btnAddTeams">
+            Add teams
+        </button>
+        {{#if teams}}
+        <button type="button" class="btn btn-outline-primary" id="btnSeeGames">
+            Show games
+        </button>
+        {{/if}}
+    </div>
+</div>

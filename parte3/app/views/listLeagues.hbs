@@ -1,0 +1,35 @@
+<div class="col border border-primary" id="accordionExample">
+    <div class="row bg-primary">
+        <div class="col">
+            <h3 class="text-white">Area</h3>
+        </div>
+        <div class="col">
+            <h3 class="text-white">Name</h3>
+        </div>
+        <div class="col-2">
+            <!-- Button to expand -->
+        </div>
+    </div>
+    {{#each .}}
+    <br>
+    <div class="row">
+        <div class="col">
+            <h5 class="font-weight-normal">{{area}}</h5>
+        </div>
+        <div class="col">
+            <h5 class="font-weight-normal">{{name}}</h5>
+        </div>
+        <div class="col-2">
+            <button id="btnleague_{{id}}" type="button" class="btn btn-dark collapsed" data-toggle="collapse"
+                data-target="#collapseLeague_{{id}}">
+                ⏷
+            </button>
+        </div>
+    </div>
+    <div class="row collapse bg-light" id="collapseLeague_{{id}}" data-parent="#accordionExample">
+        <div class="col-12" id="leagueTeams_{{id}}">
+            <!-- Insert teams from league -->
+        </div>
+    </div>
+    {{/each}}
+</div>

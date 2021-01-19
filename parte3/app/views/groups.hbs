@@ -1,0 +1,27 @@
+{{#each .}}
+<div class="row" id="group_{{id}}">
+    <div class="col-9">
+        <h6 class="text-justify" id="groupName_{{id}}">{{name}}</h6>
+    </div>
+
+    <div class="col-1">
+        <div class="btn-group" role="group">
+            
+            <button type="button" class="btn btn-light" id="btnViewGroup_{{id}}">
+                🔍
+            </button>
+
+            <button type="button" class="btn btn-light" id="btnEditGroup_{{id}}">
+                🖉
+            </button>
+
+            <button type="button" class="btn btn-light" id="btnDeleteGroup_{{id}}">
+                ❌
+            </button>
+
+        </div>
+    </div>
+</div>
+{{else}}
+<h5 class="text-center" id="noGroups"> No groups! </h5>
+{{/each}}

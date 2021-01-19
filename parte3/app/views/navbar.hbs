@@ -1,0 +1,26 @@
+<ul class="navbar-nav mr-auto nav-pills">
+    <li class="nav-item">
+        <a id="nav#focaIndex" href="#focaIndex" class="nav-link">
+            Home
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a id="nav#leagues" href="#leagues" class="nav-link">
+            Leagues
+        </a>
+    </li>
+
+    <li class="nav-item" id="liAuth">
+        {{#if auth}}
+        <a id="nav#signOut" href="#signOut" class="nav-link btn btn-light">Sign Out</a>
+        {{else}}
+        <a id="nav#sign" href="#sign" class="nav-link btn btn-light">Sign in/up</a>
+        {{/if}}
+    </li>
+    {{#if auth}}
+    <span class="navbar-text">
+        {{username}}
+    </span>
+    {{/if}}
+</ul>
